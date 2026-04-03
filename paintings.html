@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Paintings | Raúl Wesche — Geometric Canvas Work</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ─── PAINTINGS PAGE ─── */
+    .painting-hero-bg { background-image: url('https://wesche.com/new_1.jpg'); background-position: center 30%; }
+
+    /* Intro section */
+    .painting-intro {
+      border-top: 1px solid var(--border);
+      padding: 100px 52px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+    .painting-intro-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 58px); font-weight: 300;
+      line-height: 1.0; color: var(--paper); margin-bottom: 32px;
+    }
+    .painting-intro-text h2 em { font-style: italic; color: var(--gold); }
+    .painting-intro-text p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.89rem; font-weight: 300; line-height: 1.88;
+      color: var(--dim);
+    }
+    .painting-intro-text p + p { margin-top: 20px; }
+    .painting-intro-meta {
+      display: flex; flex-direction: column; gap: 32px; justify-content: center;
+    }
+    .meta-item {
+      padding-bottom: 32px; border-bottom: 1px solid var(--border);
+    }
+    .meta-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .meta-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .meta-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--paper);
+    }
+    .meta-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.83rem; font-weight: 300; line-height: 1.75; color: var(--dim);
+      margin-top: 8px;
+    }
+
+    /* Featured painting */
+    .painting-featured {
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .painting-featured-img {
+      position: relative; overflow: hidden; min-height: 600px;
+    }
+    .painting-featured-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center;
+    }
+    .painting-featured-info {
+      padding: 80px 52px;
+      display: flex; flex-direction: column; justify-content: center;
+      border-left: 1px solid var(--border);
+    }
+    .painting-featured-info h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--paper);
+      line-height: 1.05; margin-bottom: 24px;
+    }
+    .painting-featured-info h3 em { font-style: italic; color: var(--gold); }
+    .painting-featured-info p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.87rem; font-weight: 300; line-height: 1.85; color: var(--dim);
+      max-width: 420px;
+    }
+    .painting-details {
+      display: flex; gap: 40px; margin-top: 40px;
+      padding-top: 32px; border-top: 1px solid var(--border);
+    }
+    .painting-detail-item p:first-child {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .painting-detail-item p:last-child {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 300; color: var(--paper);
+    }
+
+    /* Main grid */
+    .paintings-gallery {
+      border-top: 1px solid var(--border);
+    }
+    .paintings-gallery-header {
+      padding: 72px 52px 48px;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .paintings-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 340px;
+      gap: 2px;
+      padding: 0 2px 2px;
+    }
+    .pg-a { grid-column: span 7; }
+    .pg-b { grid-column: span 5; }
+    .pg-c { grid-column: span 4; }
+    .pg-d { grid-column: span 4; }
+    .pg-e { grid-column: span 4; }
+    .pg-f { grid-column: span 6; }
+    .pg-g { grid-column: span 6; }
+    .pg-h { grid-column: span 5; }
+    .pg-i { grid-column: span 7; }
+
+    .painting-card {
+      position: relative; overflow: hidden;
+      background: var(--ink);
+    }
+    .painting-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+    .painting-card:hover img { transform: scale(1.03); }
+    .painting-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.8) 0%, transparent 55%);
+      opacity: 0; transition: opacity 0.35s ease;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 32px;
+    }
+    .painting-card:hover .painting-card-overlay { opacity: 1; }
+    .painting-card-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.47rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 8px;
+    }
+    .painting-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--paper); line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .painting-card-dim {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.46rem; letter-spacing: 0.12em; color: var(--dim);
+    }
+
+    /* Process section */
+    .process-section {
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .process-left {
+      padding: 100px 52px;
+      border-right: 1px solid var(--border);
+    }
+    .process-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 56px); font-weight: 300;
+      line-height: 1.0; color: var(--paper); margin-bottom: 32px;
+    }
+    .process-left h2 em { font-style: italic; color: var(--gold); }
+    .process-left p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--dim);
+    }
+    .process-left p + p { margin-top: 20px; }
+    .process-right {
+      padding: 100px 52px;
+    }
+    .medium-list { display: flex; flex-direction: column; gap: 0; }
+    .medium-item {
+      padding: 28px 0; border-bottom: 1px solid var(--border);
+      display: flex; gap: 24px; align-items: flex-start;
+    }
+    .medium-item:first-child { border-top: 1px solid var(--border); }
+    .medium-item-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.18em; color: var(--gold); flex-shrink: 0;
+    }
+    .medium-item-body { flex: 1; }
+    .medium-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem; font-weight: 300; color: var(--paper); margin-bottom: 6px;
+    }
+    .medium-item-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; font-weight: 300; line-height: 1.75; color: var(--dim);
+    }
+
+    /* Store link */
+    .paintings-store-link {
+      border-top: 1px solid var(--border);
+      padding: 80px 52px;
+      display: flex; align-items: center; justify-content: space-between; gap: 40px;
+    }
+    .paintings-store-link h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4vw, 52px); font-weight: 300; color: var(--paper);
+    }
+    .paintings-store-link h2 em { font-style: italic; color: var(--gold); }
+    .paintings-store-link p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--dim);
+      max-width: 400px;
+    }
+
+    @media (max-width: 1024px) {
+      .painting-intro { grid-template-columns: 1fr; padding: 72px 28px; gap: 52px; }
+      .painting-featured { grid-template-columns: 1fr; }
+      .painting-featured-img { min-height: 400px; }
+      .painting-featured-info { border-left: none; border-top: 1px solid var(--border); padding: 60px 28px; }
+      .paintings-gallery-header { padding: 56px 28px 36px; }
+      .paintings-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 260px; }
+      .pg-a,.pg-b,.pg-c,.pg-d,.pg-e,.pg-f,.pg-g,.pg-h,.pg-i { grid-column: span 1; }
+      .process-section { grid-template-columns: 1fr; }
+      .process-left { border-right: none; border-bottom: 1px solid var(--border); padding: 72px 28px; }
+      .process-right { padding: 72px 28px; }
+      .paintings-store-link { flex-direction: column; align-items: flex-start; padding: 72px 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Raúl Wesche</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html" class="active">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html" class="nav-book">Book a Session</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg painting-hero-bg"></div>
+    <div class="page-hero-content">
+      <p class="page-hero-eyebrow">Canvas Work</p>
+      <h1>The<br><em>Paintings.</em></h1>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="painting-intro">
+    <div class="painting-intro-text">
+      <p class="label reveal">The Transition</p>
+      <h2 class="reveal d1">Same geometry,<br><em>different surface.</em></h2>
+      <p class="reveal d2">A few years ago I started painting on canvas. Same obsession with sacred geometry — Platonic solids, mandalas, the Flower of Life — but without the constraints of skin. On canvas it can be as large as I want. As detailed as I want. Without a client having to sit through twelve hours of it.</p>
+      <p class="reveal d2">The paintings are still early work. I'm figuring out what this version of the geometry wants to be. But the underlying thing is the same — lines placed with intention, forms that feel like they mean something even if I can't say exactly what.</p>
+      <p class="reveal d3">More work being added throughout 2026. The transition from skin to canvas is still in progress.</p>
+    </div>
+    <div class="painting-intro-meta reveal d2">
+      <div class="meta-item">
+        <p class="meta-label">Medium</p>
+        <p class="meta-value">Acrylic on Canvas</p>
+        <p class="meta-body">Geometric forms rendered in matte and gloss acrylics on stretched linen canvas. Some pieces incorporate gold leaf.</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Scale</p>
+        <p class="meta-value">Large Format</p>
+        <p class="meta-body">Most paintings range from 36" × 36" to 60" × 72". The geometry wants room — small formats compromise the precision.</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Availability</p>
+        <p class="meta-value">Select Pieces Available</p>
+        <p class="meta-body">Original works and limited edition prints available in the store. Contact for commission inquiries.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURED PAINTING -->
+  <div class="painting-featured">
+    <div class="painting-featured-img">
+      <img src="https://wesche.com/new_6.jpg" alt="Geometric painting by Raúl Wesche" loading="lazy"/>
+    </div>
+    <div class="painting-featured-info">
+      <p class="label reveal">Featured Work</p>
+      <h3 class="reveal d1">Metatron's<br>Cube <em>No. 1</em></h3>
+      <p class="reveal d2">The first canvas piece to fully capture what I was after — the same precision of the tattoo work, but on a scale where you can see all the relationships between the forms at once. 48" × 48" on stretched linen.</p>
+      <div class="painting-details reveal d3">
+        <div class="painting-detail-item">
+          <p>Medium</p>
+          <p>Acrylic on linen</p>
+        </div>
+        <div class="painting-detail-item">
+          <p>Size</p>
+          <p>48" × 48"</p>
+        </div>
+        <div class="painting-detail-item">
+          <p>Year</p>
+          <p>2024</p>
+        </div>
+        <div class="painting-detail-item">
+          <p>Status</p>
+          <p style="color:var(--gold)">Available</p>
+        </div>
+      </div>
+      <div style="margin-top:40px;" class="reveal d3">
+        <a href="store.html" class="btn-gold">View in Store →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL PAINTINGS GRID -->
+  <div class="paintings-gallery">
+    <div class="paintings-gallery-header">
+      <div>
+        <p class="label reveal">All Paintings</p>
+        <h2 class="h-section reveal d1" style="margin-top:20px">Canvas <em>Collection</em></h2>
+      </div>
+      <p class="reveal" style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);">2023 – 2026</p>
+    </div>
+    <div class="paintings-grid">
+      <div class="painting-card pg-a reveal">
+        <img src="https://wesche.com/new_1.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Canvas</p>
+          <p class="painting-card-title">Flower of Life Study</p>
+          <p class="painting-card-dim">60" × 60" · 2025</p>
+        </div>
+      </div>
+      <div class="painting-card pg-b reveal d1">
+        <img src="https://wesche.com/w2.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Linen</p>
+          <p class="painting-card-title">Platonic Mandala I</p>
+          <p class="painting-card-dim">48" × 48" · 2024</p>
+        </div>
+      </div>
+      <div class="painting-card pg-c reveal d2">
+        <img src="https://wesche.com/w6.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Canvas</p>
+          <p class="painting-card-title">Vesica Study II</p>
+          <p class="painting-card-dim">36" × 36" · 2024</p>
+        </div>
+      </div>
+      <div class="painting-card pg-d reveal d1">
+        <img src="https://wesche.com/w1.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic &amp; Gold Leaf</p>
+          <p class="painting-card-title">Sacred Forms No. 3</p>
+          <p class="painting-card-dim">48" × 60" · 2025</p>
+        </div>
+      </div>
+      <div class="painting-card pg-e reveal d2">
+        <img src="https://wesche.com/new_3.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Canvas</p>
+          <p class="painting-card-title">Torus Field</p>
+          <p class="painting-card-dim">40" × 40" · 2025</p>
+        </div>
+      </div>
+      <div class="painting-card pg-f reveal d3">
+        <img src="https://wesche.com/w4.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Linen</p>
+          <p class="painting-card-title">Metatron Study IV</p>
+          <p class="painting-card-dim">60" × 72" · 2025</p>
+        </div>
+      </div>
+      <div class="painting-card pg-g reveal d1">
+        <img src="https://wesche.com/w5.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Canvas</p>
+          <p class="painting-card-title">Sri Yantra Variation</p>
+          <p class="painting-card-dim">48" × 48" · 2024</p>
+        </div>
+      </div>
+      <div class="painting-card pg-h reveal d2">
+        <img src="https://wesche.com/new_5.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic &amp; Gold Leaf</p>
+          <p class="painting-card-title">Cube Within Cube</p>
+          <p class="painting-card-dim">36" × 36" · 2026</p>
+        </div>
+      </div>
+      <div class="painting-card pg-i reveal d3">
+        <img src="https://wesche.com/new_6.jpg" alt="Geometric painting" loading="lazy"/>
+        <div class="painting-card-overlay">
+          <p class="painting-card-tag">Acrylic on Linen</p>
+          <p class="painting-card-title">Metatron's Cube No. 1</p>
+          <p class="painting-card-dim">48" × 48" · 2024</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROCESS -->
+  <div class="process-section">
+    <div class="process-left">
+      <p class="label reveal">The Process</p>
+      <h2 class="reveal d1">From Skin<br>to <em>Canvas.</em></h2>
+      <p class="reveal d2">Everything I was doing on skin for a decade — the same precision, the same geometric obsession — now has room to breathe. On canvas I can work at a scale where the relationships between forms are fully visible. Where the mathematics can unfold the way they want to.</p>
+      <p class="reveal d2">I'm not a painter who happened to learn geometry. I'm a geometer who happened to find a larger surface. The approach is the same: intention first, then precision, then patience. The canvas doesn't move under the tool, but the forms still have to be earned.</p>
+      <p class="reveal d3">The paintings are early work — most of them made in the last two years. I'm showing them because the underlying thing is real, not because I think they're finished. More work coming throughout 2026.</p>
+    </div>
+    <div class="process-right">
+      <p class="label reveal">Materials</p>
+      <div class="medium-list reveal d1">
+        <div class="medium-item">
+          <span class="medium-item-num">01</span>
+          <div class="medium-item-body">
+            <p class="medium-item-name">Stretched Linen Canvas</p>
+            <p class="medium-item-desc">Heavy-weight Belgian linen, gallery-depth bars. Most pieces are 1.5" depth to read as objects on the wall, not just pictures.</p>
+          </div>
+        </div>
+        <div class="medium-item">
+          <span class="medium-item-num">02</span>
+          <div class="medium-item-body">
+            <p class="medium-item-name">Professional Acrylics</p>
+            <p class="medium-item-desc">Heavy-body artist's acrylics, primarily in monochromatic palettes with occasional saturated accent. Matte medium, occasional gloss finish for specific forms.</p>
+          </div>
+        </div>
+        <div class="medium-item">
+          <span class="medium-item-num">03</span>
+          <div class="medium-item-body">
+            <p class="medium-item-name">Gold Leaf &amp; Metallic</p>
+            <p class="medium-item-desc">Select pieces incorporate 22k gold leaf or genuine metallic leaf on key geometric nodes. Applied over multiple layers of isolation coat.</p>
+          </div>
+        </div>
+        <div class="medium-item">
+          <span class="medium-item-num">04</span>
+          <div class="medium-item-body">
+            <p class="medium-item-name">Geometric Drafting</p>
+            <p class="medium-item-desc">Every piece begins as a technical drawing — the same compass-and-straightedge approach I use for tattoo design, scaled up. No digital printing, no projectors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORE LINK -->
+  <div class="paintings-store-link">
+    <div>
+      <p class="label reveal">Own the Work</p>
+      <h2 class="reveal d1" style="margin-top:20px">Originals &amp; Prints<br><em>Available.</em></h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:460px">
+      <p class="reveal d2" style="font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:300;line-height:1.8;color:var(--dim);">Select original paintings and limited-edition fine art prints are available in the store. Prints are produced on 310gsm archival cotton rag and ship in a protective tube. Originals ship via white glove art shipping within the US.</p>
+      <div class="reveal d3">
+        <a href="store.html" class="btn-gold">Browse the Store →</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left"><p>© 2026 Raúl Wesche</p><p>Houston, TX</p></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html">Booking</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px';});el.addEventListener('mouseleave',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='28px';ring.style.height='28px';});});
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>

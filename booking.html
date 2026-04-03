@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking & Inquiries | Raúl Wesche</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ─── BOOKING PAGE ─── */
+
+    /* Large typographic hero */
+    .booking-hero {
+      padding: 180px 52px 100px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .booking-hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: flex-end;
+    }
+    .booking-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(56px, 9vw, 130px);
+      font-weight: 300; line-height: 0.9; color: var(--paper);
+    }
+    .booking-hero h1 em { font-style: italic; color: var(--gold); }
+    .booking-hero-right {
+      padding-bottom: 12px;
+    }
+    .booking-hero-right p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 300; line-height: 1.88; color: var(--dim);
+    }
+    .booking-hero-right p + p { margin-top: 16px; }
+
+    /* Status badge */
+    .booking-status {
+      display: inline-flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #e05555;
+      box-shadow: 0 0 0 0 rgba(224,85,85,0.4);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(224,85,85,0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(224,85,85,0); }
+      100% { box-shadow: 0 0 0 0 rgba(224,85,85,0); }
+    }
+    .status-text {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+    }
+
+    /* Main layout */
+    .booking-main {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Left — contact & info */
+    .booking-info {
+      padding: 80px 52px;
+      border-right: 1px solid var(--border);
+    }
+    .contact-block { margin-bottom: 56px; }
+    .contact-block:last-child { margin-bottom: 0; }
+    .contact-block-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .contact-block-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem; font-weight: 300; color: var(--paper); line-height: 1.2;
+      text-decoration: none; display: block;
+      transition: color .2s;
+    }
+    a.contact-block-value:hover { color: var(--gold); }
+    .contact-block-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem; font-weight: 300; line-height: 1.75; color: var(--dim);
+      margin-top: 8px;
+    }
+    .booking-divider {
+      height: 1px; background: var(--border); margin: 40px 0;
+    }
+
+    /* Warning block */
+    .fake-accounts-warning {
+      border: 1px solid rgba(224,85,85,0.3);
+      padding: 28px 32px; margin-top: 40px;
+      background: rgba(224,85,85,0.04);
+    }
+    .fake-accounts-warning h3 {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: #e05555; margin-bottom: 12px;
+    }
+    .fake-accounts-warning p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem; font-weight: 300; line-height: 1.75; color: var(--dim);
+    }
+    .fake-accounts-warning p strong { color: var(--paper); font-weight: 400; }
+
+    /* Right — form */
+    .booking-form-wrap {
+      padding: 80px 52px;
+    }
+    .booking-form-wrap h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3vw, 40px); font-weight: 300; color: var(--paper);
+      margin-bottom: 40px; line-height: 1.1;
+    }
+    .booking-form-wrap h2 em { font-style: italic; color: var(--gold); }
+    .form-group { margin-bottom: 28px; }
+    .form-label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.48rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 10px;
+    }
+    .form-label span { color: var(--gold); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--paper);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 300;
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color .2s;
+      appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: rgba(240,237,232,0.2);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: rgba(201,168,76,0.5);
+    }
+    .form-textarea {
+      min-height: 140px; resize: vertical;
+    }
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23c9a84c' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      cursor: pointer;
+    }
+    .form-select option { background: #0e0e0e; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-submit-row {
+      display: flex; align-items: center; gap: 20px; margin-top: 8px;
+    }
+    .form-note {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem; font-weight: 300; line-height: 1.65; color: var(--dim);
+    }
+
+    /* Newsletter signup */
+    .newsletter-section {
+      border-top: 1px solid var(--border);
+      padding: 80px 52px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .newsletter-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3.5vw, 46px); font-weight: 300; color: var(--paper);
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .newsletter-text h2 em { font-style: italic; color: var(--gold); }
+    .newsletter-text p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.87rem; font-weight: 300; line-height: 1.8; color: var(--dim);
+    }
+    .newsletter-form { display: flex; gap: 0; }
+    .newsletter-input {
+      flex: 1;
+      background: transparent; border: 1px solid var(--border);
+      border-right: none;
+      color: var(--paper);
+      font-family: 'Inter', sans-serif; font-size: 0.88rem; font-weight: 300;
+      padding: 14px 20px; outline: none;
+      transition: border-color .2s;
+    }
+    .newsletter-input::placeholder { color: rgba(240,237,232,0.2); }
+    .newsletter-input:focus { border-color: rgba(201,168,76,0.4); }
+    .newsletter-btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.16em; text-transform: uppercase;
+      background: var(--gold); color: var(--black);
+      border: none; padding: 14px 24px; cursor: pointer;
+      transition: background .2s; white-space: nowrap;
+    }
+    .newsletter-btn:hover { background: var(--paper); }
+    .newsletter-fine {
+      margin-top: 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem; font-weight: 300; color: var(--dim); line-height: 1.65;
+    }
+
+    /* FAQ section */
+    .faq-section {
+      border-top: 1px solid var(--border);
+      padding: 100px 52px;
+    }
+    .faq-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 60px;
+    }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--border); border-left: 1px solid var(--border); }
+    .faq-item {
+      padding: 40px 36px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-q {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 400; color: var(--paper); margin-bottom: 14px;
+    }
+    .faq-a {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.83rem; font-weight: 300; line-height: 1.8; color: var(--dim);
+    }
+
+    @media (max-width: 1024px) {
+      .booking-hero { padding: 140px 28px 72px; }
+      .booking-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .booking-main { grid-template-columns: 1fr; }
+      .booking-info { border-right: none; border-bottom: 1px solid var(--border); padding: 72px 28px; }
+      .booking-form-wrap { padding: 72px 28px; }
+      .form-row { grid-template-columns: 1fr; }
+      .newsletter-section { grid-template-columns: 1fr; padding: 72px 28px; gap: 40px; }
+      .faq-section { padding: 72px 28px; }
+      .faq-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Raúl Wesche</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html" class="nav-book active" style="color:var(--black)!important">Book a Session</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="booking-hero">
+    <div class="booking-hero-inner">
+      <div>
+        <p class="label reveal" style="margin-bottom:24px">Get in Touch</p>
+        <h1 class="reveal d1">Let's Create<br><em>Something.</em></h1>
+      </div>
+      <div class="booking-hero-right reveal d2">
+        <div class="booking-status">
+          <span class="status-dot"></span>
+          <span class="status-text">Books Currently Closed</span>
+        </div>
+        <p>I'm not currently taking new bookings, but I am building a waitlist. Submit an inquiry below and I'll reach out when things open up — typically a few months in advance.</p>
+        <p>If you have questions about the work, process, or whether a piece is something I'd take on — feel free to ask. No commitments on either side until we've talked it through.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN: INFO + FORM -->
+  <div class="booking-main">
+    <!-- LEFT: Contact info -->
+    <div class="booking-info">
+      <p class="label reveal" style="margin-bottom:40px">Contact</p>
+
+      <div class="contact-block reveal d1">
+        <p class="contact-block-label">Email</p>
+        <a href="mailto:booking@weschetattoo.com" class="contact-block-value">booking@weschetattoo.com</a>
+        <p class="contact-block-note">Best for detailed inquiries, reference images, and questions about the work. I read every email — response time is 2–5 business days.</p>
+      </div>
+
+      <div class="booking-divider"></div>
+
+      <div class="contact-block reveal d2">
+        <p class="contact-block-label">Instagram</p>
+        <a href="https://instagram.com/weschetattoo" target="_blank" class="contact-block-value">@weschetattoo</a>
+        <p class="contact-block-note">Where most of the new work gets posted first. DMs are open for quick questions, but for booking inquiries please use email.</p>
+      </div>
+
+      <div class="booking-divider"></div>
+
+      <div class="contact-block reveal d3">
+        <p class="contact-block-label">Studio</p>
+        <p class="contact-block-value" style="cursor:default">Tattoo Temple Houston</p>
+        <p class="contact-block-note">Houston, TX. Exact address provided after booking is confirmed. Parking is available nearby.</p>
+      </div>
+
+      <div class="fake-accounts-warning reveal d3">
+        <h3>⚠ Fake Accounts Warning</h3>
+        <p>There are fake Instagram and WhatsApp accounts impersonating Raúl. <strong>The only official accounts are @weschetattoo on Instagram.</strong> Any account offering tattoos via WhatsApp or messaging apps is a scam. All legitimate contact happens through this form or the email address above.</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Form -->
+    <div class="booking-form-wrap">
+      <p class="label reveal" style="margin-bottom:24px">Inquiry Form</p>
+      <h2 class="reveal d1">Tell Me About<br><em>Your Vision</em></h2>
+      <form class="reveal d2" id="bookingForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Name <span>*</span></label>
+            <input id="name" type="text" class="form-input" placeholder="Your name" required/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email <span>*</span></label>
+            <input id="email" type="email" class="form-input" placeholder="your@email.com" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input id="phone" type="tel" class="form-input" placeholder="+1 (000) 000-0000"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Placement <span>*</span></label>
+            <select id="placement" class="form-select" required>
+              <option value="" disabled selected>Select placement</option>
+              <option>Full Sleeve (Arm)</option>
+              <option>Half Sleeve</option>
+              <option>Back Piece</option>
+              <option>Chest Panel</option>
+              <option>Leg Piece</option>
+              <option>Other / Multiple</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Approximate Size</label>
+            <select id="size" class="form-select">
+              <option value="" disabled selected>Select size</option>
+              <option>Small (under 6")</option>
+              <option>Medium (6–10")</option>
+              <option>Large (10–18")</option>
+              <option>Full Scale (sleeve/back)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Tell Me Your Vision <span>*</span></label>
+          <textarea id="vision" class="form-textarea" placeholder="What are you looking for? Describe the geometry, themes, or feeling you want in the piece. The more specific, the better." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Reference Links / Inspiration</label>
+          <input id="references" type="text" class="form-input" placeholder="Instagram links, Google Drive, Pinterest — anything that helps me understand the vision"/>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Do you have existing tattoos in the placement area?</label>
+          <select id="existing" class="form-select">
+            <option value="" disabled selected>Select one</option>
+            <option>No — clean skin</option>
+            <option>Yes — continuation / extension of existing work</option>
+            <option>Yes — cover-up needed</option>
+            <option>Yes — standalone new piece</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">How did you find me?</label>
+          <select id="referral" class="form-select">
+            <option value="" disabled selected>Select one</option>
+            <option>Instagram</option>
+            <option>Referred by someone</option>
+            <option>Google search</option>
+            <option>Saw the work in person</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-submit-row">
+          <button type="submit" class="btn-gold">Send Inquiry →</button>
+          <p class="form-note">Opens your email client pre-filled and addressed to booking@weschetattoo.com. Submitting does not guarantee a booking.</p>
+        </div>
+      </form>
+
+      <!-- Success state (hidden) -->
+      <div id="form-success" style="display:none;padding:40px 0">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--gold);margin-bottom:16px">✓</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:300;color:var(--paper);margin-bottom:16px">Inquiry Received</h3>
+        <p style="font-family:'Inter',sans-serif;font-size:0.88rem;font-weight:300;line-height:1.8;color:var(--dim)">I'll get back to you within 2–5 business days. In the meantime, feel free to look through the portfolio or browse the store.</p>
+        <div style="display:flex;gap:16px;margin-top:28px;flex-wrap:wrap">
+          <a href="tattoos.html" class="btn-gold">See the Work →</a>
+          <a href="store.html" class="btn-outline">Visit the Store →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="newsletter-section">
+    <div class="newsletter-text">
+      <p class="label reveal" style="margin-bottom:20px">Stay Updated</p>
+      <h2 class="reveal d1">One email when<br>books <em>open.</em></h2>
+      <p class="reveal d2">No newsletters. No promotions. Just one email when booking opens — typically a few times a year. That's it.</p>
+    </div>
+    <div class="reveal d2">
+      <form id="nl-form" style="display:contents" onsubmit="handleNewsletter(event)">
+        <div class="newsletter-form">
+          <input id="nl-email" type="email" class="newsletter-input" placeholder="your@email.com" required/>
+          <button class="newsletter-btn" type="submit">Join Waitlist</button>
+        </div>
+      </form>
+      <p id="nl-msg" style="opacity:0;font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-top:12px;transition:opacity .3s"></p>
+      <p class="newsletter-fine">By joining you agree to receive one email when bookings open. No spam, ever. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-header">
+      <div>
+        <p class="label reveal">Common Questions</p>
+        <h2 class="h-section reveal d1" style="margin-top:20px">Before You <em>Reach Out</em></h2>
+      </div>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item reveal">
+        <p class="faq-q">Are books actually closed right now?</p>
+        <p class="faq-a">Yes. I periodically open a limited number of slots. Submit an inquiry to join the waitlist and I'll reach out when the next opening happens. Usually a few times per year.</p>
+      </div>
+      <div class="faq-item reveal d1">
+        <p class="faq-q">Do you do small tattoos?</p>
+        <p class="faq-a">Occasionally. The geometry I specialize in — sacred geometry, Platonic solids, full mandalas — needs room to breathe. Small formats usually compromise the precision. I'll be honest about it during consultation.</p>
+      </div>
+      <div class="faq-item reveal d2">
+        <p class="faq-q">How long is a typical session?</p>
+        <p class="faq-a">Full day. Large-scale sacred geometry requires it — and deserves it. Plan for 6–9 hours depending on complexity and what your body can handle in a sitting.</p>
+      </div>
+      <div class="faq-item reveal d3">
+        <p class="faq-q">Do you travel to guest spots?</p>
+        <p class="faq-a">Occasionally. If you're interested in organizing a guest spot or have a studio in mind, include that in your inquiry. I consider it when it makes sense.</p>
+      </div>
+      <div class="faq-item reveal d1">
+        <p class="faq-q">What's your rate?</p>
+        <p class="faq-a">I charge a day rate rather than an hourly rate. Rate depends on the complexity and scale of the piece. We'll discuss this after an initial consultation — not before. I don't quote via DM.</p>
+      </div>
+      <div class="faq-item reveal d2">
+        <p class="faq-q">Will you copy someone else's tattoo design?</p>
+        <p class="faq-a">No. Every piece is custom and designed from scratch. If you send reference images, they inform the direction — they're not reproduced. I won't copy another artist's work.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left"><p>© 2026 Raúl Wesche</p><p>Houston, TX</p></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html">Booking</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px';});el.addEventListener('mouseleave',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='28px';ring.style.height='28px';});});
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const name       = document.getElementById('name').value;
+      const email      = document.getElementById('email').value;
+      const phone      = document.getElementById('phone').value || '—';
+      const placement  = document.getElementById('placement').value;
+      const size       = document.getElementById('size').value || '—';
+      const vision     = document.getElementById('vision').value;
+      const references = document.getElementById('references').value || '—';
+      const existing   = document.getElementById('existing').value || '—';
+      const referral   = document.getElementById('referral').value || '—';
+
+      const body = [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        `Phone: ${phone}`,
+        `Placement: ${placement}`,
+        `Approximate Size: ${size}`,
+        ``,
+        `Vision:`,
+        vision,
+        ``,
+        `References: ${references}`,
+        `Existing tattoos in area: ${existing}`,
+        `How they found me: ${referral}`,
+      ].join('\n');
+
+      window.location.href =
+        `mailto:booking@weschetattoo.com?subject=${encodeURIComponent('Tattoo Inquiry - ' + name)}&body=${encodeURIComponent(body)}`;
+
+      // Show success state after a short delay so the mailto has time to open
+      setTimeout(() => {
+        document.getElementById('bookingForm').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+        window.scrollTo({ top: document.querySelector('.booking-form-wrap').offsetTop - 100, behavior: 'smooth' });
+      }, 400);
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      const email = document.getElementById('nl-email').value;
+      const msg   = document.getElementById('nl-msg');
+      msg.textContent = 'Subscribing…';
+      msg.style.opacity = '1';
+      fetch('https://fn.bayouwebstudio.com/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      .then(r => r.json())
+      .then(data => {
+        msg.textContent = data.ok ? "You're in." : (data.error || 'Something went wrong. Try again.');
+        if (data.ok) document.getElementById('nl-form').reset();
+      })
+      .catch(() => { msg.textContent = 'Something went wrong. Try again.'; });
+    }
+  </script>
+</body>
+</html>

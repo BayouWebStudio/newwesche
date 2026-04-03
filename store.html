@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Store | Raúl Wesche — Books, Prints & Apparel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ─── STORE PAGE ─── */
+
+    .store-hero {
+      padding: 180px 52px 80px;
+      border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    .store-hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(64px, 10vw, 140px);
+      font-weight: 300; line-height: 0.9; color: var(--paper);
+    }
+    .store-hero h1 em { font-style: italic; color: var(--gold); }
+    .store-hero-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 300; color: var(--dim); line-height: 1.8;
+      max-width: 520px;
+    }
+
+    /* Filter tabs */
+    .store-filters {
+      border-bottom: 1px solid var(--border);
+      padding: 0 52px;
+      display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+      position: sticky; top: 64px; background: var(--black); z-index: 10;
+    }
+    .store-filters::-webkit-scrollbar { display: none; }
+    .filter-tab {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); padding: 24px 0; margin-right: 40px;
+      border-bottom: 1px solid transparent; border-top: none; border-left: none; border-right: none;
+      cursor: pointer; transition: color .2s, border-color .2s;
+      white-space: nowrap; background: none;
+    }
+    .filter-tab:hover { color: var(--paper); }
+    .filter-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    /* Section wrapper */
+    .store-section {
+      border-top: 1px solid var(--border);
+    }
+    .store-section-header {
+      padding: 64px 52px 40px;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .section-count-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    }
+
+    /* Product grid */
+    .product-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; border-top: 1px solid var(--border); border-left: 1px solid var(--border);
+    }
+    .product-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+    .product-card {
+      border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      text-decoration: none; color: inherit;
+      transition: background .2s;
+    }
+    .product-card:hover { background: var(--ink); }
+    .product-card:hover .product-img img { transform: scale(1.04); }
+
+    .product-img {
+      aspect-ratio: 1; overflow: hidden; background: var(--ink); position: relative;
+    }
+    .product-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    /* Placeholder while loading */
+    .product-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; color: var(--gold); opacity: 0.3;
+    }
+
+    .product-info {
+      padding: 24px 28px 32px;
+      display: flex; flex-direction: column; gap: 8px;
+      flex: 1;
+    }
+    .product-category {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.46rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold);
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 300; color: var(--paper); line-height: 1.25;
+    }
+    .product-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: auto; padding-top: 16px;
+    }
+    .product-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 400; color: var(--paper);
+    }
+    .product-arrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.47rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gold); opacity: 0; transition: opacity .2s;
+    }
+    .product-card:hover .product-arrow { opacity: 1; }
+
+    /* Loading skeleton */
+    .skeleton-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; border-top: 1px solid var(--border); border-left: 1px solid var(--border);
+      padding: 0 0 2px;
+    }
+    .skeleton-card {
+      border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .skeleton-img {
+      aspect-ratio: 1; background: var(--ink);
+      animation: shimmer 1.4s infinite;
+    }
+    .skeleton-info { padding: 24px 28px; display: flex; flex-direction: column; gap: 12px; }
+    .skeleton-line {
+      height: 8px; background: var(--border); border-radius: 2px;
+      animation: shimmer 1.4s infinite;
+    }
+    .skeleton-line.short { width: 40%; }
+    .skeleton-line.med { width: 70%; }
+    @keyframes shimmer {
+      0% { opacity: 0.4; } 50% { opacity: 0.8; } 100% { opacity: 0.4; }
+    }
+
+    /* Error state */
+    .store-error {
+      padding: 80px 52px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem; font-weight: 300; color: var(--dim); line-height: 1.8;
+    }
+    .store-error a { color: var(--gold); text-decoration: none; }
+
+    /* Shipping notice */
+    .store-notice {
+      border-top: 1px solid var(--border);
+      padding: 32px 52px;
+      display: flex; align-items: center; gap: 48px; flex-wrap: wrap;
+      background: var(--ink);
+    }
+    .store-notice p {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    }
+    .store-notice p strong { color: var(--paper); font-weight: 400; }
+
+    @media (max-width: 1024px) {
+      .store-hero { padding: 140px 28px 60px; }
+      .store-filters { padding: 0 28px; }
+      .store-section-header { padding: 52px 28px 32px; }
+      .product-grid, .product-grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .skeleton-grid { grid-template-columns: repeat(2, 1fr); }
+      .store-notice { padding: 32px 28px; gap: 20px; flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .product-grid, .product-grid-4 { grid-template-columns: 1fr; }
+      .skeleton-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Raúl Wesche</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html" class="active">Store</a></li>
+      <li><a href="booking.html" class="nav-book">Book a Session</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="store-hero">
+    <p class="label reveal">Shop</p>
+    <h1 class="reveal d1">The<br><em>Store.</em></h1>
+    <p class="store-hero-sub reveal d2">Books, fine art prints, apparel, and digital downloads. Everything ships worldwide.</p>
+  </div>
+
+  <!-- FILTER TABS -->
+  <div class="store-filters" id="store-filters">
+    <button class="filter-tab active" data-section="all">All</button>
+    <button class="filter-tab" data-section="books">Books</button>
+    <button class="filter-tab" data-section="prints">Art Prints</button>
+    <button class="filter-tab" data-section="apparel">Apparel</button>
+    <button class="filter-tab" data-section="home">Home &amp; Objects</button>
+    <button class="filter-tab" data-section="digital">Digital</button>
+  </div>
+
+  <!-- PRODUCTS CONTAINER -->
+  <div id="products-container">
+    <!-- Loading skeleton -->
+    <div class="store-section">
+      <div class="store-section-header">
+        <div>
+          <p class="label" style="margin-bottom:16px">Loading</p>
+          <div class="skeleton-line med" style="height:14px;width:180px"></div>
+        </div>
+      </div>
+      <div class="skeleton-grid">
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line med"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line med"></div><div class="skeleton-line short"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-info"><div class="skeleton-line short"></div><div class="skeleton-line med"></div><div class="skeleton-line short"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHIPPING NOTICE -->
+  <div class="store-notice">
+    <p><strong>Ships Worldwide</strong> from Houston, TX</p>
+    <p><strong>Digital Downloads</strong> delivered instantly via email</p>
+    <p><strong>Archival Prints</strong> on 310gsm cotton rag</p>
+    <p><strong>Questions?</strong> <a href="booking.html" style="color:var(--gold);text-decoration:none">Get in touch →</a></p>
+  </div>
+
+  <footer>
+    <div class="footer-left"><p>© 2026 Raúl Wesche</p><p>Houston, TX</p></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html">Booking</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    /* ── CURSOR ── */
+    const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px';});el.addEventListener('mouseleave',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='28px';ring.style.height='28px';});});
+
+    /* ── NAV ── */
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+
+    /* ── REVEAL ── */
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+    /* ── STORE DATA ── */
+    const SECTIONS = [
+      {
+        id: 'books', label: 'Books',
+        handles: ['weschetattoo-2025-book']
+      },
+      {
+        id: 'prints', label: 'Art Prints',
+        handles: [
+          'textured-watercolor-matte-posters',
+          'cosmic-dodecahedron-art-print',
+          'crystalline-consciousness-art-print',
+          'merkaba-codex-flower-of-life-print',
+          'quantum-garden-mandala-art-print',
+          'radiant-icosahedron-art-print'
+        ]
+      },
+      {
+        id: 'apparel', label: 'Apparel',
+        handles: ['golden-sacred-geometry-t-shirt', 'template3', 'bucket-hat-aop']
+      },
+      {
+        id: 'home', label: 'Home & Objects',
+        handles: ['woven-blanket', 'accent-coffee-mug-11-15oz', 'hardcover-journal-matte', 'hardcover-journal-matte-1']
+      },
+      {
+        id: 'digital', label: 'Digital Downloads',
+        handles: [
+          'patterns-mandalas-brush-set-combo',
+          'patterns-book-v2',
+          'patterns-brush-set',
+          'mandalas-pattern-combo-v2',
+          'mandala-brush-set',
+          'mandala-book-v2'
+        ]
+      }
+    ];
+
+    const KNOWN_HANDLES = new Set(SECTIONS.flatMap(s => s.handles));
+
+    function formatPrice(variants) {
+      if (!variants || !variants.length) return '';
+      const prices = variants.map(v => parseFloat(v.price)).filter(p => !isNaN(p));
+      if (!prices.length) return '';
+      const min = Math.min(...prices);
+      const formatted = '$' + min.toFixed(2).replace(/\.00$/, '');
+      return formatted;
+    }
+
+    function buildCard(product, categoryLabel) {
+      const imageUrl = product.featured_image
+        ? product.featured_image.src
+        : (product.images && product.images[0] ? product.images[0].src : '');
+      const price = formatPrice(product.variants);
+      const url   = 'https://weschetattoo.com/products/' + product.handle;
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'product-card';
+      a.innerHTML = `
+        <div class="product-img">
+          ${imageUrl
+            ? `<img src="${imageUrl}" alt="${product.title}" loading="lazy"/>`
+            : `<div class="product-img-placeholder">◎</div>`
+          }
+        </div>
+        <div class="product-info">
+          <p class="product-category">${categoryLabel}</p>
+          <p class="product-name">${product.title}</p>
+          <div class="product-footer">
+            <span class="product-price">${price}</span>
+            <span class="product-arrow">Shop →</span>
+          </div>
+        </div>`;
+      return a;
+    }
+
+    function renderSections(products) {
+      const byHandle = {};
+      products.forEach(p => { byHandle[p.handle] = p; });
+
+      const otherProducts = products.filter(p => !KNOWN_HANDLES.has(p.handle));
+      const container = document.getElementById('products-container');
+      container.innerHTML = '';
+
+      const allSections = [...SECTIONS];
+      if (otherProducts.length) {
+        allSections.push({ id: 'other', label: 'Other', handles: otherProducts.map(p => p.handle) });
+        otherProducts.forEach(p => { byHandle[p.handle] = p; });
+      }
+
+      allSections.forEach(section => {
+        const sectionProducts = section.handles.map(h => byHandle[h]).filter(Boolean);
+        if (!sectionProducts.length) return;
+
+        const cols = sectionProducts.length >= 4 ? 'product-grid-4' : '';
+
+        const wrap = document.createElement('div');
+        wrap.className = 'store-section';
+        wrap.id = `section-${section.id}`;
+        wrap.innerHTML = `
+          <div class="store-section-header">
+            <div>
+              <p class="label" style="margin-bottom:16px">${section.label}</p>
+              <h2 class="h-section" style="margin-top:0">${section.label === 'Art Prints' ? '<em>Art Prints</em>' : section.label === 'Digital Downloads' ? 'Digital <em>Downloads</em>' : section.label === 'Home & Objects' ? 'Home &amp; <em>Objects</em>' : `<em>${section.label}</em>`}</h2>
+            </div>
+            <p class="section-count-badge">${sectionProducts.length} ${sectionProducts.length === 1 ? 'item' : 'items'}</p>
+          </div>
+          <div class="product-grid ${cols}" id="grid-${section.id}"></div>`;
+
+        container.appendChild(wrap);
+
+        const grid = wrap.querySelector(`#grid-${section.id}`);
+        sectionProducts.forEach(p => grid.appendChild(buildCard(p, section.label)));
+
+        // Wire up reveal on newly added cards
+        grid.querySelectorAll('.product-card').forEach(el => io.observe(el));
+      });
+    }
+
+    async function loadProducts() {
+      try {
+        const res = await fetch('https://all-sacred.myshopify.com/products.json?limit=50', {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const products = (data.products || []).filter(p => p.published_at !== null);
+        renderSections(products);
+      } catch (err) {
+        console.error('Store load failed:', err);
+        document.getElementById('products-container').innerHTML = `
+          <div class="store-error">
+            <p>Unable to load products right now.</p>
+            <p style="margin-top:16px">Visit <a href="https://weschetattoo.com" target="_blank">weschetattoo.com</a> to shop directly.</p>
+          </div>`;
+      }
+    }
+
+    loadProducts();
+
+    /* ── FILTER TABS ── */
+    document.getElementById('store-filters').addEventListener('click', e => {
+      const btn = e.target.closest('.filter-tab');
+      if (!btn) return;
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      const section = btn.dataset.section;
+      if (section === 'all') {
+        window.scrollTo({ top: document.getElementById('products-container').offsetTop - 120, behavior: 'smooth' });
+        return;
+      }
+      const el = document.getElementById('section-' + section);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</body>
+</html>

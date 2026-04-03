@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tattoo Work | Raúl Wesche — Geometric Tattoo Artist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ─── TATTOOS PAGE ─── */
+    .tattoo-hero-bg { background-image: url('https://wesche.com/t2.jpg'); background-position: center 20%; }
+
+    /* Intro block */
+    .tattoo-intro {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+    .tattoo-intro-left {
+      padding: 80px 52px;
+      border-right: 1px solid var(--border);
+    }
+    .tattoo-intro-right {
+      padding: 80px 52px;
+    }
+    .tattoo-intro-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 56px); font-weight: 300;
+      line-height: 1.0; color: var(--paper); margin-bottom: 32px;
+    }
+    .tattoo-intro-left h2 em { font-style: italic; color: var(--gold); }
+    .tattoo-intro-left p, .tattoo-intro-right p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.89rem; font-weight: 300; line-height: 1.88;
+      color: var(--dim);
+    }
+    .tattoo-intro-right p + p { margin-top: 20px; }
+    .tattoo-intro-right .process-list {
+      margin-top: 40px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .process-item {
+      display: flex; gap: 28px; align-items: flex-start;
+      padding: 24px 0; border-bottom: 1px solid var(--border);
+    }
+    .process-item:first-child { border-top: 1px solid var(--border); }
+    .process-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.18em; color: var(--gold);
+      flex-shrink: 0; padding-top: 3px;
+    }
+    .process-text {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 300; line-height: 1.75; color: var(--dim);
+    }
+    .process-text strong {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--paper); display: block; margin-bottom: 6px; font-weight: 400;
+    }
+
+    /* Full masonry grid */
+    .gallery-section {
+      border-top: 1px solid var(--border);
+    }
+    .gallery-header {
+      padding: 72px 52px 48px;
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      padding: 0 2px 2px;
+    }
+    .gallery-cell {
+      position: relative; overflow: hidden;
+      aspect-ratio: 3/4;
+      background: var(--ink);
+    }
+    .gallery-cell.tall { aspect-ratio: 2/3; grid-row: span 1; }
+    .gallery-cell.wide { grid-column: span 2; aspect-ratio: 16/9; }
+    .gallery-cell.featured { grid-column: span 2; grid-row: span 2; aspect-ratio: auto; min-height: 600px; }
+    .gallery-cell img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.6s ease, filter 0.4s ease;
+      filter: grayscale(8%);
+    }
+    .gallery-cell:hover img {
+      transform: scale(1.04);
+      filter: grayscale(0%);
+    }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(8,8,8,0.7) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.35s ease;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 28px;
+    }
+    .gallery-cell:hover .gallery-overlay { opacity: 1; }
+    .gallery-overlay-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.48rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .gallery-overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 300; color: var(--paper); line-height: 1.1;
+    }
+
+    /* Second grid row — more varied layout */
+    .gallery-grid-b {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 280px;
+      gap: 2px;
+      padding: 2px 2px 0;
+    }
+    .gb-1 { grid-column: span 5; }
+    .gb-2 { grid-column: span 4; }
+    .gb-3 { grid-column: span 3; }
+    .gb-4 { grid-column: span 7; }
+    .gb-5 { grid-column: span 5; }
+    .gallery-grid-b .gallery-cell { aspect-ratio: auto; min-height: 280px; }
+
+    /* What to expect */
+    .expect-section {
+      border-top: 1px solid var(--border);
+      padding: 100px 52px;
+    }
+    .expect-header {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-bottom: 72px;
+    }
+    .expect-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 0; border-top: 1px solid var(--border); border-left: 1px solid var(--border);
+    }
+    .expect-item {
+      padding: 52px 40px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .expect-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; color: var(--gold);
+      line-height: 1; margin-bottom: 20px;
+    }
+    .expect-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--paper); margin-bottom: 14px;
+    }
+    .expect-body {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 300; line-height: 1.8; color: var(--dim);
+    }
+
+    /* Pull quote */
+    .tattoo-quote {
+      border-top: 1px solid var(--border);
+      padding: 100px 52px;
+      max-width: 900px;
+    }
+    .tattoo-quote blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 52px); font-weight: 300; font-style: italic;
+      line-height: 1.25; color: var(--paper);
+    }
+    .tattoo-quote blockquote em { color: var(--gold); font-style: normal; }
+    .tattoo-quote cite {
+      display: block; margin-top: 28px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); font-style: normal;
+    }
+
+    /* Booking CTA */
+    .tattoo-cta {
+      border-top: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 420px;
+    }
+    .tattoo-cta-text {
+      padding: 100px 52px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 28px; justify-content: center;
+    }
+    .tattoo-cta-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 66px); font-weight: 300; color: var(--paper);
+    }
+    .tattoo-cta-text h2 em { font-style: italic; color: var(--gold); }
+    .tattoo-cta-text p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 300; line-height: 1.8; color: var(--dim);
+      max-width: 440px;
+    }
+    .tattoo-cta-img {
+      position: relative; overflow: hidden;
+    }
+    .tattoo-cta-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center;
+      filter: grayscale(10%);
+    }
+    .tattoo-cta-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(8,8,8,0.4), transparent);
+    }
+
+    @media (max-width: 1024px) {
+      .tattoo-intro { grid-template-columns: 1fr; }
+      .tattoo-intro-left { border-right: none; border-bottom: 1px solid var(--border); padding: 72px 28px; }
+      .tattoo-intro-right { padding: 72px 28px; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-cell.featured { grid-column: span 2; min-height: 400px; }
+      .gallery-grid-b { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 240px; }
+      .gb-1, .gb-2, .gb-3, .gb-4, .gb-5 { grid-column: span 1; }
+      .gallery-header { padding: 56px 28px 36px; }
+      .expect-section { padding: 72px 28px; }
+      .expect-grid { grid-template-columns: 1fr; }
+      .tattoo-quote { padding: 72px 28px; }
+      .tattoo-cta { grid-template-columns: 1fr; }
+      .tattoo-cta-text { padding: 72px 28px; border-right: none; border-bottom: 1px solid var(--border); }
+      .tattoo-cta-img { min-height: 340px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Raúl Wesche</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="tattoos.html" class="active">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html" class="nav-book">Book a Session</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-bg tattoo-hero-bg"></div>
+    <div class="page-hero-content">
+      <p class="page-hero-eyebrow">Portfolio</p>
+      <h1>Tattoo<br><em>Work.</em></h1>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="tattoo-intro">
+    <div class="tattoo-intro-left">
+      <p class="label reveal">The Discipline</p>
+      <h2 class="reveal d1">Sacred Geometry<br>on <em>Skin.</em></h2>
+      <p class="reveal d2">Large-scale sacred geometry, mandalas, and Platonic solids. Each piece is built over a full-day session — no rushing, no compromising. Over a decade of work that still feels like it's pointing at something real.</p>
+      <p class="reveal d2">I specialize in the kind of geometry that has existed for thousands of years: Metatron's Cube, the Flower of Life, the Vesica Piscis, nested Platonic solids. Patterns with mathematical precision and something harder to name underneath them.</p>
+      <p class="reveal d3">People fly in from across the country — and occasionally further — which still surprises me. I work out of Tattoo Temple Houston. I take it seriously.</p>
+    </div>
+    <div class="tattoo-intro-right">
+      <p class="label reveal">How It Works</p>
+      <div class="process-list reveal d1">
+        <div class="process-item">
+          <span class="process-num">01</span>
+          <div class="process-text">
+            <strong>Reach Out</strong>
+            Books are currently closed. Submit an inquiry to join the waiting list. One email when bookings open — no spam.
+          </div>
+        </div>
+        <div class="process-item">
+          <span class="process-num">02</span>
+          <div class="process-text">
+            <strong>The Consultation</strong>
+            We talk about placement, scale, and what you're after. I don't do consultations for pieces I'm not already interested in making.
+          </div>
+        </div>
+        <div class="process-item">
+          <span class="process-num">03</span>
+          <div class="process-text">
+            <strong>Design</strong>
+            All designs are custom. No flash, no catalogue — every piece is built for the body it's going on.
+          </div>
+        </div>
+        <div class="process-item">
+          <span class="process-num">04</span>
+          <div class="process-text">
+            <strong>Full-Day Session</strong>
+            Large-scale work requires a full day. You show up ready. I show up ready. That's what the work deserves.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GALLERY -->
+  <div class="gallery-section">
+    <div class="gallery-header">
+      <div>
+        <p class="label reveal">All Work</p>
+        <h2 class="h-section reveal d1" style="margin-top:20px">The <em>Portfolio</em></h2>
+      </div>
+      <p class="reveal" style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);">Houston, TX · 12+ Years</p>
+    </div>
+
+    <!-- Grid A: 3-col -->
+    <div class="gallery-grid">
+      <div class="gallery-cell reveal">
+        <img src="https://wesche.com/t1.jpg" alt="Sacred geometry tattoo" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Full Sleeve</p>
+          <p class="gallery-overlay-title">Metatron's Cube</p>
+        </div>
+      </div>
+      <div class="gallery-cell reveal d1">
+        <img src="https://wesche.com/t3.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Chest Panel</p>
+          <p class="gallery-overlay-title">Platonic Solids</p>
+        </div>
+      </div>
+      <div class="gallery-cell reveal d2">
+        <img src="https://wesche.com/t5.jpg" alt="Mandala tattoo" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Back Piece</p>
+          <p class="gallery-overlay-title">Sacred Mandala</p>
+        </div>
+      </div>
+      <div class="gallery-cell reveal d1">
+        <img src="https://wesche.com/t7.jpg" alt="Sacred geometry tattoo" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Full Sleeve</p>
+          <p class="gallery-overlay-title">Flower of Life</p>
+        </div>
+      </div>
+      <div class="gallery-cell reveal d2">
+        <img src="https://wesche.com/t8.jpg" alt="Geometric blackwork tattoo" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Blackwork</p>
+          <p class="gallery-overlay-title">Vesica Piscis</p>
+        </div>
+      </div>
+      <div class="gallery-cell reveal d3">
+        <img src="https://wesche.com/t9.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Chest Panel</p>
+          <p class="gallery-overlay-title">Sacred Geometry</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid B: varied widths -->
+    <div class="gallery-grid-b">
+      <div class="gallery-cell gb-1 reveal">
+        <img src="https://wesche.com/t4.jpg" alt="Geometric tattoo" loading="lazy" style="width:100%;height:100%;object-fit:cover;"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Full Sleeve</p>
+          <p class="gallery-overlay-title">Mandala & Geometry</p>
+        </div>
+      </div>
+      <div class="gallery-cell gb-2 reveal d1">
+        <img src="https://wesche.com/t6.jpg" alt="Sacred geometry" loading="lazy" style="width:100%;height:100%;object-fit:cover;"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Back Piece</p>
+          <p class="gallery-overlay-title">Platonic Geometry</p>
+        </div>
+      </div>
+      <div class="gallery-cell gb-3 reveal d2">
+        <img src="https://wesche.com/t2.jpg" alt="Tattoo detail" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:center;"/>
+        <div class="gallery-overlay">
+          <p class="gallery-overlay-tag">Detail</p>
+          <p class="gallery-overlay-title">Linework</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PULL QUOTE -->
+  <div class="tattoo-quote">
+    <p class="label reveal">Philosophy</p>
+    <blockquote class="reveal d1">
+      "I specialize in sacred geometry — Platonic solids, mandalas, the Flower of Life, Metatron's Cube. Patterns that have existed for thousands of years and still feel like they're pointing at <em>something real.</em>"
+    </blockquote>
+    <cite class="reveal d2">— Raúl Wesche</cite>
+  </div>
+
+  <!-- WHAT TO EXPECT -->
+  <div class="expect-section">
+    <div class="expect-header">
+      <div>
+        <p class="label reveal">Before You Book</p>
+        <h2 class="h-section reveal d1" style="margin-top:20px">What to <em>Expect</em></h2>
+      </div>
+    </div>
+    <div class="expect-grid">
+      <div class="expect-item reveal">
+        <div class="expect-icon">◎</div>
+        <p class="expect-title">Full-Day Commitment</p>
+        <p class="expect-body">Every session is a full day. Large-scale sacred geometry demands it — and deserves it. Plan accordingly. No abbreviated sessions for large pieces.</p>
+      </div>
+      <div class="expect-item reveal d1">
+        <div class="expect-icon">⬡</div>
+        <p class="expect-title">Custom Designs Only</p>
+        <p class="expect-body">No flash, no templates, no copying existing work. Every design is built from scratch for the specific body, placement, and intent of the person wearing it.</p>
+      </div>
+      <div class="expect-item reveal d2">
+        <div class="expect-icon">△</div>
+        <p class="expect-title">Mathematically Precise</p>
+        <p class="expect-body">Sacred geometry done right is exacting work. The proportions are real, the relationships are real. It shows in the finished piece — and it shows when they're not.</p>
+      </div>
+      <div class="expect-item reveal d3">
+        <div class="expect-icon">✦</div>
+        <p class="expect-title">Large Scale Specialty</p>
+        <p class="expect-body">Full sleeves, back pieces, chest panels. Small pieces occasionally. The geometry wants room to breathe — small formats compromise what makes it meaningful.</p>
+      </div>
+      <div class="expect-item reveal d1">
+        <div class="expect-icon">◇</div>
+        <p class="expect-title">Houston, TX</p>
+        <p class="expect-body">Based at Tattoo Temple Houston. People travel — some from across the country, some from further. Worth noting when you're planning a session.</p>
+      </div>
+      <div class="expect-item reveal d2">
+        <div class="expect-icon">⊕</div>
+        <p class="expect-title">Waitlist Only</p>
+        <p class="expect-body">Books are currently closed. Submit an inquiry to get on the waiting list. I send one email when bookings open — no newsletters, no spam.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING CTA -->
+  <div class="tattoo-cta">
+    <div class="tattoo-cta-text">
+      <p class="label reveal">Next Step</p>
+      <h2 class="reveal d1">Ready to<br><em>Begin?</em></h2>
+      <p class="reveal d2">Books are currently closed. Submit an inquiry to join the waiting list — I'll be in touch when things open up. If you have questions about the work or process, feel free to reach out.</p>
+      <div style="display:flex;gap:16px;flex-wrap:wrap" class="reveal d3">
+        <a href="booking.html" class="btn-gold">Send an Inquiry →</a>
+        <a href="about.html" class="btn-outline">About Raúl →</a>
+      </div>
+    </div>
+    <div class="tattoo-cta-img">
+      <img src="https://wesche.com/t1.jpg" alt="Raúl Wesche tattooing" loading="lazy"/>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left"><p>© 2026 Raúl Wesche</p><p>Houston, TX</p></div>
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html">Booking</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const cur=document.getElementById('cursor'),ring=document.getElementById('ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px';});el.addEventListener('mouseleave',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='28px';ring.style.height='28px';});});
+    const nav=document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>

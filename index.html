@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Raúl Wesche | Geometric Tattoo Artist Houston TX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Space+Mono:wght@400;700&family=Inter:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ─── HOME HERO ─── */
+    .hero {
+      position: relative; height: 100vh; min-height: 680px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      overflow: hidden;
+    }
+    .hero-photo {
+      position: absolute; inset: 0;
+      background: url('https://wesche.com/raul.jpg') center 20% / cover no-repeat;
+    }
+    .hero-photo::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to bottom,
+        rgba(8,8,8,0.1) 0%, rgba(8,8,8,0) 25%,
+        rgba(8,8,8,0.35) 55%, rgba(8,8,8,0.94) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 52px 72px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end;
+    }
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.57rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(72px, 10vw, 144px);
+      font-weight: 300; line-height: 0.88; color: var(--paper);
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-right { display: flex; flex-direction: column; gap: 36px; }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.22rem; font-weight: 300; font-style: italic;
+      line-height: 1.65; color: rgba(240,237,232,0.78); max-width: 380px;
+    }
+    .hero-stats { display: flex; gap: 44px; }
+    .stat-n {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem; font-weight: 600; color: var(--paper); line-height: 1;
+    }
+    .stat-l {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dim); margin-top: 5px;
+    }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ─── MARQUEE ─── */
+    .marquee {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden; white-space: nowrap; padding: 16px 0;
+      background: rgba(201,168,76,0.03);
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-inner { display: inline-block; animation: marquee 30s linear infinite; }
+    .marquee-inner span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin: 0 36px;
+    }
+    .marquee-inner span.g { color: rgba(201,168,76,0.7); }
+
+    /* ─── ABOUT PREVIEW ─── */
+    .about-preview {
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+    .about-preview-text {
+      padding: 100px 52px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 36px; justify-content: center;
+    }
+    .about-preview h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 5vw, 66px);
+      font-weight: 300; line-height: 1.0; color: var(--paper);
+    }
+    .about-preview h2 em { font-style: italic; color: var(--gold); }
+    .about-preview p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem; font-weight: 300; line-height: 1.85; color: var(--dim);
+      max-width: 460px;
+    }
+    .about-preview-photo { position: relative; overflow: hidden; min-height: 560px; }
+    .about-preview-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+      object-position: center top; display: block; filter: grayscale(10%);
+    }
+
+    /* ─── TATTOO GRID PREVIEW ─── */
+    .tattoo-preview-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      border-top: 2px solid var(--black);
+    }
+    .t-cell { position: relative; overflow: hidden; aspect-ratio: 3/4; }
+    .t-cell.wide { grid-column: span 2; aspect-ratio: auto; min-height: 480px; }
+    .t-cell img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .6s ease, filter .4s ease; filter: grayscale(10%);
+    }
+    .t-cell:hover img { transform: scale(1.04); filter: grayscale(0%); }
+    .t-cell-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 20px 24px;
+      background: linear-gradient(transparent, rgba(8,8,8,0.7));
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--gold); opacity: 0; transition: opacity .3s;
+    }
+    .t-cell:hover .t-cell-label { opacity: 1; }
+
+    /* ─── QUOTE ─── */
+    .quote-section {
+      border-top: 1px solid var(--border);
+      padding: 120px 52px;
+      display: grid; grid-template-columns: 72px 1fr; gap: 48px;
+    }
+    .quote-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7rem; font-weight: 300; color: var(--gold);
+      line-height: 0.65; opacity: 0.35; user-select: none;
+    }
+    .quote-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(26px, 3.5vw, 48px);
+      font-weight: 300; font-style: italic; line-height: 1.45; color: var(--paper);
+    }
+    .quote-text em { font-style: normal; color: var(--gold); }
+    .quote-attr {
+      margin-top: 36px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim);
+    }
+
+    /* ─── PAINTINGS SCROLL ─── */
+    .paintings-scroll { overflow-x: auto; scrollbar-width: none; border-top: 1px solid var(--border); }
+    .paintings-scroll::-webkit-scrollbar { display: none; }
+    .paintings-track { display: flex; }
+    .p-cell { flex-shrink: 0; width: 320px; border-right: 1px solid var(--border); text-decoration: none; }
+    .p-cell-thumb { width: 100%; height: 400px; overflow: hidden; }
+    .p-cell-thumb img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .6s ease; filter: grayscale(8%);
+    }
+    .p-cell:hover .p-cell-thumb img { transform: scale(1.04); }
+    .p-cell-info { padding: 22px 26px; border-top: 1px solid var(--border); }
+    .p-cell-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-style: italic; color: var(--paper); margin-bottom: 5px;
+    }
+    .p-cell-meta {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.48rem; letter-spacing: 0.13em; text-transform: uppercase; color: var(--dim);
+    }
+
+    /* ─── STORE PREVIEW ─── */
+    .store-preview-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--border);
+    }
+    .store-card {
+      border-right: 1px solid var(--border); text-decoration: none;
+      display: flex; flex-direction: column; transition: background .25s;
+    }
+    .store-card:last-child { border-right: none; }
+    .store-card:hover { background: rgba(201,168,76,0.04); }
+    .store-card-img { aspect-ratio: 1; overflow: hidden; }
+    .store-card-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .5s ease;
+    }
+    .store-card:hover .store-card-img img { transform: scale(1.05); }
+    .store-card-info { padding: 22px 24px; border-top: 1px solid var(--border); flex: 1; }
+    .store-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.98rem; font-style: italic; color: var(--paper); margin-bottom: 8px;
+    }
+    .store-card-price {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem; color: var(--gold);
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+    }
+    .t-card { padding: 52px 44px; border-right: 1px solid var(--border); }
+    .t-card:last-child { border-right: none; }
+    .t-stars { color: var(--gold); font-size: 0.65rem; letter-spacing: 3px; margin-bottom: 24px; }
+    .t-body {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-style: italic; font-weight: 300;
+      line-height: 1.72; color: rgba(240,237,232,0.8); margin-bottom: 28px;
+    }
+    .t-footer { display: flex; align-items: center; gap: 12px; }
+    .t-avatar { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; flex-shrink: 0; }
+    .t-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .t-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+    }
+
+    /* ─── VESICA ─── */
+    .vesica { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+    .vesica-left {
+      padding: 100px 52px; border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 28px; justify-content: center;
+    }
+    .vesica-left h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 4vw, 56px); font-weight: 300; line-height: 1.05; color: var(--paper);
+    }
+    .vesica-left h2 em { font-style: italic; color: var(--gold); }
+    .vesica-left p {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.86rem; font-weight: 300; line-height: 1.85; color: var(--dim); max-width: 420px;
+    }
+    .vesica-right {
+      background: #0c0c0c;
+      display: flex; align-items: center; justify-content: center; padding: 80px;
+    }
+    .vesica-right img { width: 100%; max-width: 220px; opacity: 0.65;
+      filter: invert(1) sepia(0.3) saturate(0.5) brightness(0.75); }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      position: relative; min-height: 480px; overflow: hidden;
+      border-top: 1px solid var(--border);
+      display: flex; align-items: flex-end;
+    }
+    .cta-bg {
+      position: absolute; inset: 0;
+      background: url('https://wesche.com/t3.jpg') center / cover no-repeat;
+      filter: grayscale(50%) brightness(0.28);
+    }
+    .cta-content {
+      position: relative; z-index: 2; padding: 80px 52px; width: 100%;
+      display: grid; grid-template-columns: 1fr auto; gap: 60px; align-items: end;
+    }
+    .cta-h {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 7vw, 100px); font-weight: 300; line-height: 0.92; color: var(--paper);
+    }
+    .cta-h em { font-style: italic; color: var(--gold); }
+    .cta-actions { display: flex; flex-direction: column; gap: 12px; min-width: 220px; }
+    .cta-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem; font-weight: 300; color: var(--dim);
+      line-height: 1.7; margin-bottom: 8px; max-width: 240px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1024px) {
+      .hero-content { grid-template-columns: 1fr; padding: 0 28px 60px; }
+      .about-preview { grid-template-columns: 1fr; }
+      .about-preview-text { border-right: none; border-bottom: 1px solid var(--border); padding: 80px 28px; }
+      .about-preview-photo { min-height: 380px; }
+      .tattoo-preview-grid { grid-template-columns: 1fr 1fr; }
+      .t-cell.wide { grid-column: span 2; }
+      .store-preview-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .t-card { border-right: none; border-bottom: 1px solid var(--border); }
+      .t-card:last-child { border-bottom: none; }
+      .vesica { grid-template-columns: 1fr; }
+      .vesica-left { border-right: none; border-bottom: 1px solid var(--border); padding: 80px 28px; }
+      .cta-content { grid-template-columns: 1fr; }
+      .quote-section { padding: 80px 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="ring"></div>
+
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Raúl Wesche</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html" class="nav-book">Book a Session</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-content">
+      <div>
+        <p class="hero-eyebrow">Houston, TX &nbsp;·&nbsp; Geometric Tattoo Artist</p>
+        <h1>Raúl<br><em>Wesche.</em></h1>
+      </div>
+      <div class="hero-right">
+        <p class="hero-tagline">I tattoo geometry. I paint geometry. Every line placed with intention, whether on skin or canvas.</p>
+        <div class="hero-stats">
+          <div><div class="stat-n">297K</div><div class="stat-l">Followers</div></div>
+          <div><div class="stat-n">12+</div><div class="stat-l">Years</div></div>
+          <div><div class="stat-n">∞</div><div class="stat-l">Geometry</div></div>
+        </div>
+        <div class="hero-cta">
+          <a href="booking.html" class="btn-gold">Book a Session →</a>
+          <a href="tattoos.html" class="btn-outline">See the Work →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-inner">
+      <span class="g">Sacred Geometry</span><span>Mandalas</span><span class="g">Platonic Solids</span>
+      <span>Houston TX</span><span class="g">Large-Scale Geometric</span><span>Full-Day Sessions</span>
+      <span class="g">Tattoo Temple Houston</span><span>Canvas Paintings</span>
+      <span class="g">Mathematical Precision</span><span>12+ Years</span>
+      <span class="g">Sacred Geometry</span><span>Mandalas</span><span class="g">Platonic Solids</span>
+      <span>Houston TX</span><span class="g">Large-Scale Geometric</span><span>Full-Day Sessions</span>
+      <span class="g">Tattoo Temple Houston</span><span>Canvas Paintings</span>
+      <span class="g">Mathematical Precision</span><span>12+ Years</span>
+    </div>
+  </div>
+
+  <!-- ABOUT PREVIEW -->
+  <div class="about-preview">
+    <div class="about-preview-text">
+      <p class="label reveal">The Artist</p>
+      <h2 class="reveal d1">Precision<br>as a <em>Practice.</em></h2>
+      <p class="reveal d2">Over a decade doing one thing: large-scale geometric and sacred geometry. Mandalas, Platonic solids, mathematical patterns. Every line placed with intention, every session a full day of focus. Based in Houston, TX at Tattoo Temple Houston.</p>
+      <a href="about.html" class="btn-text reveal d3">Read More →</a>
+    </div>
+    <div class="about-preview-photo reveal">
+      <img src="https://wesche.com/new_6.jpg" alt="Sacred Geometry by Raúl Wesche" loading="lazy"/>
+    </div>
+  </div>
+
+  <!-- TATTOO WORK -->
+  <section class="section" id="tattoos">
+    <div class="section-header">
+      <div>
+        <p class="label reveal">Tattoo Work</p>
+        <h2 class="h-section reveal d1">Geometric <em>Tattoos</em></h2>
+      </div>
+      <a href="tattoos.html" class="btn-text reveal">Full Portfolio →</a>
+    </div>
+    <div class="tattoo-preview-grid">
+      <div class="t-cell wide">
+        <img src="https://wesche.com/t1.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="t-cell-label">Sacred Geometry · Full Sleeve</div>
+      </div>
+      <div class="t-cell">
+        <img src="https://wesche.com/t2.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="t-cell-label">Mandala</div>
+      </div>
+      <div class="t-cell">
+        <img src="https://wesche.com/t4.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="t-cell-label">Sacred Geometry</div>
+      </div>
+      <div class="t-cell">
+        <img src="https://wesche.com/t5.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="t-cell-label">Platonic Solid</div>
+      </div>
+      <div class="t-cell">
+        <img src="https://wesche.com/t6.jpg" alt="Geometric tattoo" loading="lazy"/>
+        <div class="t-cell-label">Geometric</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE -->
+  <div class="quote-section">
+    <div class="quote-mark reveal">"</div>
+    <div class="reveal d1">
+      <p class="quote-text">Every line placed with <em>intention.</em> Every session a full day of focus. Large-scale geometric demands — and deserves — that commitment.</p>
+      <p class="quote-attr">— Raúl Wesche · Houston, TX</p>
+    </div>
+  </div>
+
+  <!-- PAINTINGS -->
+  <section class="section" id="paintings">
+    <div class="section-header">
+      <div>
+        <p class="label reveal">Canvas Work</p>
+        <h2 class="h-section reveal d1"><em>Paintings</em></h2>
+      </div>
+      <a href="paintings.html" class="btn-text reveal">See All Paintings →</a>
+    </div>
+    <div class="paintings-scroll">
+      <div class="paintings-track">
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/new_1.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Sacred Geometry I</p><p class="p-cell-meta">Canvas · 2026</p></div></a>
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/w2.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Icosahedron</p><p class="p-cell-meta">Canvas · 2026</p></div></a>
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/w6.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Mandala Study</p><p class="p-cell-meta">Canvas · 2026</p></div></a>
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/w1.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Dodecahedron</p><p class="p-cell-meta">Canvas · 2026</p></div></a>
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/new_3.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Sacred Geometry III</p><p class="p-cell-meta">Canvas · 2026</p></div></a>
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/w4.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Geometry Study</p><p class="p-cell-meta">Canvas · 2025</p></div></a>
+        <a href="paintings.html" class="p-cell"><div class="p-cell-thumb"><img src="https://wesche.com/w5.jpg" alt="" loading="lazy"/></div><div class="p-cell-info"><p class="p-cell-title">Sepia Study</p><p class="p-cell-meta">Canvas · 2025</p></div></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORE PREVIEW -->
+  <section class="section" id="store">
+    <div class="section-header">
+      <div>
+        <p class="label reveal">The Store</p>
+        <h2 class="h-section reveal d1">Prints, Books &amp; More</h2>
+      </div>
+      <a href="store.html" class="btn-text reveal">Shop All →</a>
+    </div>
+    <div class="store-preview-grid">
+      <a href="store.html" class="store-card reveal">
+        <div class="store-card-img"><img src="https://cdn.shopify.com/s/files/1/0245/1066/0660/files/book-photo-1.jpg?v=1772077908" alt="Sacred Geometry Book" loading="lazy"/></div>
+        <div class="store-card-info"><p class="store-card-name">Sacred Geometry — The Book</p><p class="store-card-price">$59.99</p></div>
+      </a>
+      <a href="store.html" class="store-card reveal d1">
+        <div class="store-card-img"><img src="https://cdn.shopify.com/s/files/1/0245/1066/0660/files/aca913a581bc6b179e5030af57ec89d1.jpg?v=1773080798" alt="T-Shirt" loading="lazy"/></div>
+        <div class="store-card-info"><p class="store-card-name">Golden Sacred Geometry T-Shirt</p><p class="store-card-price">$37.80</p></div>
+      </a>
+      <a href="store.html" class="store-card reveal d2">
+        <div class="store-card-img"><img src="https://cdn.shopify.com/s/files/1/0245/1066/0660/files/qfx3UpS.jpg?v=1772071899" alt="Art Print" loading="lazy"/></div>
+        <div class="store-card-info"><p class="store-card-name">Cosmic Dodecahedron Art Print</p><p class="store-card-price">$35.00</p></div>
+      </a>
+      <a href="store.html" class="store-card reveal d3">
+        <div class="store-card-img"><img src="https://cdn.shopify.com/s/files/1/0245/1066/0660/files/crystalline-painting-1.jpg?v=1772080306" alt="Art Print" loading="lazy"/></div>
+        <div class="store-card-info"><p class="store-card-name">Crystalline Consciousness Print</p><p class="store-card-price">$55.00</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <p class="label reveal">Client Stories</p>
+        <h2 class="h-section reveal d1">What <em>Clients</em> Say</h2>
+      </div>
+    </div>
+    <div class="testimonials-grid">
+      <div class="t-card reveal">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-body">"I flew from out of state to have Raúl put his art on my arm. Three days for a sleeve. His style is unmatched and his eye for flow is amazing."</p>
+        <div class="t-footer"><div class="t-avatar"><img src="https://wesche.com/testimonial-photos/testimonial-rob.jpg" alt="Rob" loading="lazy"/></div><p class="t-name">Rob — Airville, PA</p></div>
+      </div>
+      <div class="t-card reveal d1">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-body">"I get compliments everywhere I go. Beyond the incredible artistry, he truly cares about his clients. The only downside is knowing I'll eventually run out of skin."</p>
+        <div class="t-footer"><div class="t-avatar"><img src="https://wesche.com/testimonial-photos/testimonial-jason.jpg" alt="Jason" loading="lazy"/></div><p class="t-name">Jason — Jacksonville, FL</p></div>
+      </div>
+      <div class="t-card reveal d2">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-body">"Hands down the best tattoo experiences. He is incredibly thoughtful about comfort, every session is relaxed and positive. Incredible work by an even better human."</p>
+        <div class="t-footer"><div class="t-avatar"><img src="https://wesche.com/testimonial-photos/testimonial-louie.jpg" alt="Louie" loading="lazy"/></div><p class="t-name">Louie B — Austin, TX</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VESICA -->
+  <div class="vesica">
+    <div class="vesica-left">
+      <p class="label reveal">Side Project</p>
+      <h2 class="reveal d1">Vesica<br><em>Studio.</em></h2>
+      <p class="reveal d2">The sacred geometry drawing tool I built for artists. Mandalas, wallpaper patterns, kaleidoscopes — with mathematical precision. Free in your browser.</p>
+      <a href="https://vesica.studio" target="_blank" class="btn-gold reveal d3">Try Vesica Studio Free →</a>
+    </div>
+    <div class="vesica-right reveal d1">
+      <img src="https://raw.githubusercontent.com/BayouWebStudio/vesica-studio/main/img/icon.png" alt="Vesica Studio" loading="lazy"/>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <div class="cta-content">
+      <h2 class="cta-h reveal">Book Your<br><em>Session.</em></h2>
+      <div class="cta-actions reveal d1">
+        <p class="cta-sub">Large-scale geometric work takes time. Books are currently closed — reach out to get on the list.</p>
+        <a href="booking.html" class="btn-gold">Send an Inquiry →</a>
+        <a href="booking.html" class="btn-outline">View Booking Info →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-left"><p>© 2026 Raúl Wesche</p><p>Houston, TX</p></div>
+    <ul class="footer-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="tattoos.html">Tattoos</a></li>
+      <li><a href="paintings.html">Paintings</a></li>
+      <li><a href="store.html">Store</a></li>
+      <li><a href="booking.html">Booking</a></li>
+      <li><a href="https://instagram.com/weschetattoo" target="_blank">Instagram</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Cursor
+    const cur = document.getElementById('cursor'), ring = document.getElementById('ring');
+    let mx=0,my=0,rx=0,ry=0;
+    document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+    (function a(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(a);})();
+    document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';ring.style.width='44px';ring.style.height='44px';});el.addEventListener('mouseleave',()=>{cur.style.width='6px';cur.style.height='6px';ring.style.width='28px';ring.style.height='28px';});});
+    // Nav scroll
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+    // Reveals
+    const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:0.1});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+</body>
+</html>
